@@ -1,0 +1,27 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* background-color: #f2f2f2; */
+  }
+  
+  .form-box {
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: white;
+  }
+
+  .form-box h2 {
+    margin-bottom: 15px;
+    background-color: white;
+  }
+  
+  .form-box label,
+  .form-box input,
+  .form-box button {
+    display: block;
+    margin-bottom: 15px;
+    background-color: white;
+  }
