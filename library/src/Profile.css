@@ -1,0 +1,20 @@
+.profile-page {
+    display: flex;
+}
+
+.sidebar {
+    background-color: antiquewhite;
+    height: 100vh; /* Adjust height as needed */
+    width: 250px;
+    /* other styles... */
+}
+
+.profile_container {
+    flex-grow: 1; /* Takes up remaining space */
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically and horizontally */
+    margin-left: 10px; /* Optional: for some spacing between sidebar and content */
+}

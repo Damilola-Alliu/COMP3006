@@ -61,12 +61,6 @@ app.post('/', async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-   
-  
-    // Here, you can generate and return a JWT token for authentication
-    // For example:
-    // const token = generateToken(user); // Implement your token generation logic
-    // res.status(200).json({ token });
   
     res.status(200).json({ message: 'Login successful' });
   });

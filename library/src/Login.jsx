@@ -27,8 +27,8 @@ function Login() {
       const data = await response.json();
 
       if (response.status === 200) {
-        console.log('User logged in:', data.token); // Assuming the response contains a token
-        // Example: localStorage.setItem('token', data.token);
+        console.log('User logged in:', data.token); 
+        
         navigate('/home'); // Redirect to home
       } else {
         console.error('Login failed:', data.message); // Handle error message
@@ -49,7 +49,7 @@ function Login() {
       <div className="form-container">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          {/* Display error message if any */}
+          
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div>
             <label>Email:</label>
