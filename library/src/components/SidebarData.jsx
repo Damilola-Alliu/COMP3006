@@ -4,6 +4,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 export const SidebarData = [
     {
@@ -30,5 +31,17 @@ export const SidebarData = [
         title: "Logout",
         icon: <LogoutIcon />,
         link: "/",
+        onClick: () => {
+            const navigate = useNavigate();
+
+            const handleLogout = () => {
+                // Clear user data from localStorage and redirect to the login page
+                localStorage.removeItem('token');
+                localStorage.removeItem('userData');
+                navigate('/login');
+            };
+
+            handleLogout();
+        },
     },
 ];

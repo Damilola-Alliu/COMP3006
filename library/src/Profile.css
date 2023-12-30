@@ -1,20 +1,86 @@
+/* Add/Edit profile page styles */
 .profile-page {
     display: flex;
+    min-height: 100vh; /* Full height of the viewport */
 }
 
-.sidebar {
-    background-color: antiquewhite;
-    height: 100vh; /* Adjust height as needed */
-    width: 250px;
-    /* other styles... */
-}
-
-.profile_container {
-    flex-grow: 1; /* Takes up remaining space */
-    text-align: center;
-    color: white;
+.content {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center; /* Center content vertically and horizontally */
-    margin-left: 10px; /* Optional: for some spacing between sidebar and content */
+    align-items: center;
+    padding: 20px; /* Add padding to ensure some space around the profile container */
+}
+
+.profile-container {
+    background-color: white;
+    color: black;
+    padding: 40px; /* Increase padding for more internal space */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 600px; /* Increase max-width to make the div bigger */
+    width: 100%; /* Ensure it expands to the max width */
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.edit-info-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.edit-info-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the edit picture modal */
+.edit-picture-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it's above other elements */
+    width: 300px; /* Set width as needed */
+}
+
+.edit-picture-modal label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.edit-picture-modal input[type="text"],
+.edit-picture-modal input[type="email"] {
+    width: calc(100% - 20px); /* Adjust width minus padding */
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.edit-picture-modal button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-picture-modal button:hover {
+    background-color: #0056b3;
 }

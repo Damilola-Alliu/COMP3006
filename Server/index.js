@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const UserModel = require('./models/Users')
 const bcrypt = require("bcryptjs")
+const jwt = require('jsonwebtoken');
+const secretKey = 'yourSecretKey'; // Replace with your secret key
 
 const app = express()
 app.use(cors())
@@ -60,9 +62,41 @@ app.post('/', async (req, res) => {
     if (!validPassword) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-
   
-    res.status(200).json({ message: 'Login successful' });
+    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
+    res.status(200).json({ token });
+  });
+
+  app.get('/profile', async (req, res) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(403).json({ message: 'Token is required!' });
+    }
+  
+    jwt.verify(token, secretKey, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Invalid token!' });
+      }
+  
+      const userId = decoded.userId;
+  
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+  
+        res.json({
+          userId: user._id,
+          email: user.Email,
+          name: user.Name,
+          phoneNumber: user.PhoneNumber,
+        });
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching user data' });
+      }
+    });
   });
 
 

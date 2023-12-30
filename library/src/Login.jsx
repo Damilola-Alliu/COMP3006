@@ -27,7 +27,9 @@ function Login() {
       const data = await response.json();
 
       if (response.status === 200) {
-        console.log('User logged in:', data.token); 
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userData', JSON.stringify({ name: data.name, phoneNumber: data.phoneNumber }));
+        
         
         navigate('/home'); // Redirect to home
       } else {
