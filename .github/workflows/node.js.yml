@@ -33,6 +33,11 @@ jobs:
       run: npm run build --if-present
       working-directory: library
 
+    # Add a step to list the contents of the library directory after build
+    - name: List contents of the library directory after build
+      run: ls -la
+      working-directory: library
+
     - name: Run tests
       run: npm test
       working-directory: library
