@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import './index.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { UserProvider } from './UserContext';
+
 import Login from './Login';
 import Register from './Register';
 import Home from './home';
@@ -12,7 +12,7 @@ import ReturnedBooks from './ReturnedBooks';
 
 function App() {
   return (
-    <UserProvider>
+    
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -23,7 +23,7 @@ function App() {
           <Route path="/returnedbooks" element={<ReturnedBooks />} />
         </Routes>
       </Router>
-    </UserProvider>
+    
   );
 }
 
