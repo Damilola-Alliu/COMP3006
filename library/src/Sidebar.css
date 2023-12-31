@@ -1,9 +1,17 @@
-.sidebar{
-    background-color: antiquewhite;
+html, body {
     height: 100%;
-    width: 250px;
-    
+    margin: 0;
+    padding: 0;
 }
+
+.sidebar {
+    background-color: antiquewhite;
+    height: 100vh;
+    width: 250px;
+    position: fixed; /* Sidebar stays in place during scrolling */
+    overflow-y: auto; /* Add scrollbar to sidebar if content overflows */
+}
+
 
 .sidebarlist{
     height: auto;
