@@ -5,8 +5,7 @@ const UserModel = require('./models/Users')
 const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken');
 const secretKey = 'SecretKey'; 
-const BooksModel = require('./models/Books'); 
-const Borro = require('./models/BorrowedBooks')
+const BooksModel = require('../models/Users'); 
 
 const app = express()
 app.use(cors())
@@ -14,18 +13,9 @@ app.use(express.json())
 
 mongoose.connect("mongodb://localhost:27017/COMP3006db")
 
-
-// app.get('/getUsers', (req, res) => {
-//     UserModel.find()
-//     .then(users => res.json(users))
-//     .catch(err => res.join(err))
-// })
-
 require("./models/Users")
 
 const User = mongoose.model("Users")
-const Books = mongoose.model("Books")
-const BorrowedBooks = mongoose.model("BorrowedBooks")
 
 app.post("/register", async(req, res) => {
     const{  Password, Email, Name, PhoneNumber } = req.body;
@@ -102,50 +92,3 @@ app.post('/', async (req, res) => {
       }
     });
   });
-
-  app.get('/books', async (req, res) => {
-    try {
-        const books = await BooksModel.find();
-        res.json(books);
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        res.status(500).json({ message: 'Error fetching books', error: error.message });
-    }
-});
-;
-  
-
-  app.post('/books', async (req, res) => {
-    try {
-      // Destructure book details from the request body
-      const { Title, Author, ISBN, Description, Genre, PublicationYear, CoverImage, TotalCopies, AvailableCopies, BorrowedBy } = req.body;
-  
-      // Create a new book instance using the Books model
-      const newBook = new BooksModel({
-        Title,
-        Author,
-        ISBN,
-        Description,
-        Genre,
-        PublicationYear,
-        CoverImage,
-        TotalCopies,
-        AvailableCopies,
-        BorrowedBy
-      });
-  
-      // Save the new book to the database
-      await newBook.save();
-  
-      res.status(201).json({ message: 'Book created successfully', book: newBook });
-    } catch (error) {
-      res.status(500).json({ message: 'Error creating book', error: error.message });
-    }
-  });
-  
-  
-
-
-app.listen(3000, () => {
-    console.log("Server is running")
-})

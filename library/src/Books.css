@@ -1,20 +1,48 @@
 .books_page {
     display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Align items to the top of the container */
 }
 
-.sidebar {
+.Sidebar {
     background-color: antiquewhite;
-    height: 100vh; /* Adjust height as needed */
+    height: 100vh;
     width: 250px;
-    /* other styles... */
+    
 }
 
 .books_container {
-    flex-grow: 1; /* Takes up remaining space */
+    flex-grow: 1;
+    text-align: center;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+    padding-top: 20px;
+}
+
+h1 {
     text-align: center;
     color: white;
+}
+
+.book_item_container {
+    width: 20%; /* Smaller width for the book container */
+    margin: 10px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.book_item {
+    
+}
+
+.books_list {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center; /* Center content vertically and horizontally */
-    margin-left: 10px; /* Optional: for some spacing between sidebar and content */
+    gap: 20px;
 }
