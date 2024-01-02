@@ -22,11 +22,21 @@ export const SidebarData = [
         icon: <AssignmentReturnedIcon />,
         link: "/returnedbooks",
     },
+
+    {
+        title: "Borrowed Books",
+        icon: <LibraryBooksIcon />,
+        link: "/borrowedbooks",
+    },
+
+    
     {
         title: "Profile",
         icon: <PersonIcon />,
         link: "/profile",
     },
+  
+
     {
         title: "Logout",
         icon: <LogoutIcon />,

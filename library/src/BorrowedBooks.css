@@ -1,0 +1,20 @@
+.borrowedbooks_page {
+    display: flex;
+}
+
+.Sidebar {
+    background-color: antiquewhite;
+    height: 100vh; 
+    width: 250px;
+   
+}
+
+.borrowedbooks {
+    flex-grow: 1; 
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-left: 10px; 
+}

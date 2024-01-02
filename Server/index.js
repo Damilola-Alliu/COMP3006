@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken');
 const secretKey = 'SecretKey'; 
 const BooksModel = require('./models/Books'); 
-const Borro = require('./models/BorrowedBooks')
+const Borrow = require('./models/BorrowedBooks')
 
 const app = express()
 app.use(cors())

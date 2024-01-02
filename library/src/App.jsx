@@ -9,6 +9,7 @@ import Home from './home';
 import Profile from './Profile';
 import Books from './Books';
 import ReturnedBooks from './ReturnedBooks';
+import BorrowedBooks from './BorrowedBooks';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/books" element={<Books />} />
           <Route path="/returnedbooks" element={<ReturnedBooks />} />
+          <Route path="/borrowedbooks" element={<BorrowedBooks />} />
         </Routes>
       </Router>
     

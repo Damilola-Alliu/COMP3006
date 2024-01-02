@@ -50,7 +50,7 @@ const Books = () => {
                     bookID: selectedBookID,
                     borrowDate,
                     returnDate,
-                    // Add other necessary details
+                    
                 }),
             });
 
@@ -85,7 +85,7 @@ const Books = () => {
                     {filteredBooks.map(book => (
                         <div key={book.BookID} className="book_item_container">
                             <div className="book_item">
-                                <img src={book.CoverImage} alt={book.Title} />
+                            <img src={book.CoverImage} alt={book.Title} />
                                 <h3>{book.Title}</h3>
                                 <p>Author: {book.Author}</p>
                                 <p>ISBN: {book.ISBN}</p>
@@ -100,10 +100,13 @@ const Books = () => {
                         </div>
                     ))}
                 </div>
-                {showForm && (
-                    <div className="popup_form">
-                        <form onSubmit={handleFormSubmit}>
-                            <label htmlFor="borrowDate">Borrow Date:</label>
+            </div>
+            {showForm && (
+    <div className="popup_overlay">
+        <div className={`popup_form ${showForm ? 'show' : ''}`}>
+            <button className="closeButton" onClick={() => setShowForm(false)}>X</button>
+            <form onSubmit={handleFormSubmit}>
+            <label htmlFor="borrowDate">Borrow Date:</label>
                             <input
                                 type="date"
                                 id="borrowDate"
@@ -111,7 +114,11 @@ const Books = () => {
                                 onChange={(e) => setBorrowDate(e.target.value)}
                                 required
                             />
-                            <label htmlFor="returnDate">Return Date:</label>
+
+                            <br />
+                            <br />
+
+                            <label htmlFor="returnDate">Intended Return Date:</label>
                             <input
                                 type="date"
                                 id="returnDate"
@@ -119,11 +126,14 @@ const Books = () => {
                                 onChange={(e) => setReturnDate(e.target.value)}
                                 required
                             />
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-                )}
-            </div>
+
+                            <br />
+                            <br />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+)}
         </div>
     );
 };
