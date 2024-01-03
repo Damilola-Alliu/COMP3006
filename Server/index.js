@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require('jsonwebtoken');
 const secretKey = 'SecretKey'; 
 const BooksModel = require('./models/Books'); 
-const Borrow = require('./models/BorrowedBooks')
+const BorrowedBooksModel = require('./models/BorrowedBooks')
 
 const app = express()
 app.use(cors())
@@ -144,6 +144,47 @@ app.post('/', async (req, res) => {
   });
   
   
+  app.post('/borrow-book', async (req, res) => {
+    const { bookName, borrowDate, returnDate } = req.body;
+    const token = req.headers.authorization;
+
+    try {
+        if (!token) {
+            return res.status(403).json({ message: 'Token is required!' });
+        }
+
+        // Verify and decode the JWT token to extract user information
+        const decodedToken = jwt.verify(token.split(' ')[1], secretKey);
+        const userEmail = decodedToken.Email; // Extract user's email from the decoded token
+
+        // Create a new entry in BorrowedBooks collection
+        const newBorrowedBook = new BorrowedBooksModel({
+            BookName: bookName, // Use the bookName received from the frontend
+            userEmail: userEmail,
+            BorrowDate: borrowDate,
+            DueDate: returnDate,
+            ReturnDate: null,
+        });
+
+        await newBorrowedBook.save();
+
+        // Update the available copies count in the Books collection
+        // This part will need to be adjusted to find the book by name instead of ID
+        const borrowedBook = await BooksModel.findOne({ Title: bookName });
+        if (borrowedBook) {
+            borrowedBook.AvailableCopies -= 1;
+            await borrowedBook.save();
+        }
+
+        res.status(200).json({ message: 'Book borrowed successfully!' });
+    } catch (error) {
+        console.error('Error borrowing book:', error);
+        res.status(500).json({ error: 'Failed to borrow book' });
+    }
+});
+
+
+
 
 
 app.listen(3000, () => {

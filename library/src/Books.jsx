@@ -8,11 +8,48 @@ const Books = () => {
     const [showForm, setShowForm] = useState(false);
     const [borrowDate, setBorrowDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
-    const [selectedBookID, setSelectedBookID] = useState('');
+    const [selectedBookName, setSelectedBookName] = useState('');
+    const [userEmail, setuserEmail] = useState('');
 
     useEffect(() => {
         fetchBooks();
+        fetchUserProfile();
     }, []);
+
+
+    const fetchUserProfile = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (token) {
+                const response = await fetch('http://localhost:3000/profile', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    setuserEmail(userData.email);
+                    console.log(userData.email)
+                } else {
+                    console.error('Failed to fetch user email');
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching user email:', error);
+        }
+    };
+    
+    
+    // Ensure you call the fetchUserProfile function
+    useEffect(() => {
+        fetchBooks();
+        fetchUserProfile();
+    }, []);
+    
 
     const fetchBooks = async () => {
         try {
@@ -32,38 +69,47 @@ const Books = () => {
         setSearchTerm(e.target.value);
     };
 
-    const handleBorrowBook = (bookID) => {
-        setSelectedBookID(bookID);
+    const handleBorrowBook = (bookName) => {
+        setSelectedBookName(bookName);
         setShowForm(true);
     };
-
+    
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            const response = await fetch('http://localhost:3000/borrow-book', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    bookID: selectedBookID,
-                    borrowDate,
-                    returnDate,
-                    
-                }),
-            });
+    if (new Date(returnDate) < new Date(borrowDate)) {
+        console.error('Return date cannot be before borrow date');
+        return;
+    }
 
-            if (response.ok) {
-                setShowForm(false);
-                fetchBooks();
-            } else {
-                console.error('Failed to borrow book');
-            }
-        } catch (error) {
-            console.error('Error borrowing book:', error);
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('http://localhost:3000/borrow-book', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                bookName: selectedBookName,
+                borrowDate,
+                returnDate,
+                userEmail, // Include userEmail in the request payload
+            }),
+        });
+
+        if (response.ok) {
+            setShowForm(false);
+            fetchBooks();
+        } else {
+            console.error('Failed to borrow book');
         }
-    };
+    } catch (error) {
+        console.error('Error borrowing book:', error);
+    }
+};
+
 
     const filteredBooks = books.filter(book =>
         book.Title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -95,7 +141,8 @@ const Books = () => {
                                 <p>Total Copies: {book.TotalCopies}</p>
                                 <p>Available Copies: {book.AvailableCopies}</p>
                                 <br />
-                                <button onClick={() => handleBorrowBook(book.BookID)}>Borrow Book</button>
+                                <button onClick={() => handleBorrowBook(book.Title)}>Borrow Book</button>
+                                
                             </div>
                         </div>
                     ))}

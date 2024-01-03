@@ -55,17 +55,11 @@ const Profile = () => {
                     <p>Email: {userData.email}</p>
                     <p>Phone Number: {userData.phoneNumber}</p>
                     <button className="edit-info-button" onClick={handleEditInfo}>Edit Info</button>
-                    {/* Additional profile details here */}
+                    
                 </div>
             </div>
 
-            {isEditPictureModalOpen && (
-                <div className="edit-picture-modal">
-                    <p>Profile Picture Edit Form</p>
-                    {/* Form elements to edit the profile picture */}
-                    <button onClick={() => setEditPictureModalOpen(false)}>Close</button>
-                </div>
-            )}
+        
         </div>
     );
 };

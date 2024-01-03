@@ -6,7 +6,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // Added state for error message
+  const [errorMessage, setErrorMessage] = useState(''); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          'Access-Control-Allow-Origin': '*',
+         
         },
         body: JSON.stringify({
           Email: email,
@@ -29,6 +29,7 @@ function Login() {
       if (response.status === 200) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userData', JSON.stringify({ name: data.name, phoneNumber: data.phoneNumber }));
+        //localStorage.setItem('userEmail', email);
         
         
         navigate('/home'); // Redirect to home

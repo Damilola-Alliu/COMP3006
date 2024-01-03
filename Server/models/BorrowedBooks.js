@@ -1,19 +1,15 @@
 const mongoose = require('mongoose');
 
 const BorrowedBooksSchema = new mongoose.Schema({
-    BorrowedID: Number,
-    BookID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Books'
+    BookName: {
+        type: String, 
     },
-    UserID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+    UserEmail: {
+        type: String,
     },
     BorrowDate: Date,
     DueDate: Date,
     ReturnDate: Date,
-    FineAmount: String
 });
 
 const BorrowedBooksModel = mongoose.model("BorrowedBooks", BorrowedBooksSchema);
