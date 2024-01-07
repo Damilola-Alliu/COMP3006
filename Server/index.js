@@ -183,34 +183,24 @@ app.post('/', async (req, res) => {
 
 
 app.get('/borrowed-books', async (req, res) => {
-  const token = req.headers.authorization;
-  
+  const userEmail = req.query.userEmail;
+  console.log('This is the user Email: ', userEmail)
   try {
-    if (!token) {
-      return res.status(403).json({ message: 'Token is required!' });
-    }
-
-    const userEmail = req.query.userEmail; // Retrieve user email from query parameters
-
     if (!userEmail) {
       return res.status(400).json({ message: 'User email not provided!' });
     }
 
     const borrowedBooks = await BorrowedBooksModel.find({
-      UserEmail: userEmail,
+      userEmail, // Use the user's email to filter books
       ReturnDate: null, // Fetch books that haven't been returned yet
     });
 
-    console.log('Borrowed Books:', borrowedBooks);
     res.status(200).json({ borrowedBooks });
   } catch (error) {
     console.error('Error fetching borrowed books:', error);
     res.status(500).json({ error: 'Failed to fetch borrowed books' });
   }
 });
-
-
-
 
 
 app.listen(3000, () => {
