@@ -145,7 +145,7 @@ app.post('/', async (req, res) => {
   
   
   app.post('/borrow-book', async (req, res) => {
-    const { bookName, borrowDate, returnDate } = req.body;
+    const { bookName, borrowDate, returnDate, userEmail } = req.body;
     const token = req.headers.authorization;
 
     try {
@@ -153,10 +153,7 @@ app.post('/', async (req, res) => {
             return res.status(403).json({ message: 'Token is required!' });
         }
 
-        // Verify and decode the JWT token to extract user information
-        const decodedToken = jwt.verify(token.split(' ')[1], secretKey);
-        const userEmail = decodedToken.Email; // Extract user's email from the decoded token
-
+        
         // Create a new entry in BorrowedBooks collection
         const newBorrowedBook = new BorrowedBooksModel({
             BookName: bookName, // Use the bookName received from the frontend
@@ -181,6 +178,35 @@ app.post('/', async (req, res) => {
         console.error('Error borrowing book:', error);
         res.status(500).json({ error: 'Failed to borrow book' });
     }
+});
+
+
+
+app.get('/borrowed-books', async (req, res) => {
+  const token = req.headers.authorization;
+  
+  try {
+    if (!token) {
+      return res.status(403).json({ message: 'Token is required!' });
+    }
+
+    const userEmail = req.query.userEmail; // Retrieve user email from query parameters
+
+    if (!userEmail) {
+      return res.status(400).json({ message: 'User email not provided!' });
+    }
+
+    const borrowedBooks = await BorrowedBooksModel.find({
+      UserEmail: userEmail,
+      ReturnDate: null, // Fetch books that haven't been returned yet
+    });
+
+    console.log('Borrowed Books:', borrowedBooks);
+    res.status(200).json({ borrowedBooks });
+  } catch (error) {
+    console.error('Error fetching borrowed books:', error);
+    res.status(500).json({ error: 'Failed to fetch borrowed books' });
+  }
 });
 
 

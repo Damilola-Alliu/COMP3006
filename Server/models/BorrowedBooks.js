@@ -4,7 +4,7 @@ const BorrowedBooksSchema = new mongoose.Schema({
     BookName: {
         type: String, 
     },
-    UserEmail: {
+    userEmail: {
         type: String,
     },
     BorrowDate: Date,

@@ -18,3 +18,46 @@
     align-items: center; 
     margin-left: 10px; 
 }
+
+.borrowedbooks_page {
+    display: flex;
+  }
+  
+  .borrowedbooks_container {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .borrowedbooks_container h1 {
+    color: white;
+  }
+  
+  .book_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .book_item_container {
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .book_item {
+    padding: 15px;
+  }
+  
+  .book_item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .book_item h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  /* Additional styling based on your book details */
+  
