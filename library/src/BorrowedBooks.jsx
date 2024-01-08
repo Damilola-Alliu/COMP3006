@@ -79,6 +79,15 @@ const BorrowedBooks = () => {
           setLoading(false);
         }
       };
+
+      const formatDate = (dateString) => {
+        const date = new Date(dateString)
+        const year = date.getFullYear()
+        let month = (1 + date.getMonth()).toString().padStart(2 , '0')
+        let day = date.getDate().toString().padStart(2,'0')
+
+        return `${year}-${month}-${day}`;
+      }
       
       
 
@@ -97,10 +106,15 @@ const BorrowedBooks = () => {
                       <div className="book_item">
                         <img src={book.CoverImage} alt={book.Title} />
                         <h3>{book.BookName}</h3>
-                        <b><p>Borrow Date:{book.BorrowDate}</p></b>
-                        <b><p>Due Date:{book.DueDate}</p></b>
+                        <b><p>Borrowed Date: {formatDate(book.BorrowDate)}</p></b>
+                        <b><p>Due Date: {formatDate(book.DueDate)}</p></b>
                         <br />
-                        <p>Your are yet to return this book</p>
+                        <p>You are yet to return this book.
+                          <br />
+                          <br />
+                          An admin will have to approve returning of this book.
+                          
+                          </p>
                       </div>
                     </div>
                   ))

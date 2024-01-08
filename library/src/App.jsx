@@ -10,6 +10,7 @@ import Profile from './Profile';
 import Books from './Books';
 import ReturnedBooks from './ReturnedBooks';
 import BorrowedBooks from './BorrowedBooks';
+import Admin from './Admin'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/returnedbooks" element={<ReturnedBooks />} />
           <Route path="/borrowedbooks" element={<BorrowedBooks />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Router>
     

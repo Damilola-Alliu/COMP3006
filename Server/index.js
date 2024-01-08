@@ -8,6 +8,7 @@ const secretKey = 'SecretKey';
 const BooksModel = require('./models/Books'); 
 const BorrowedBooksModel = require('./models/BorrowedBooks')
 
+
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -27,30 +28,32 @@ const User = mongoose.model("Users")
 const Books = mongoose.model("Books")
 const BorrowedBooks = mongoose.model("BorrowedBooks")
 
-app.post("/register", async(req, res) => {
-    const{  Password, Email, Name, PhoneNumber } = req.body;
+app.post("/register", async (req, res) => {
+  const { Password, Email, Name, PhoneNumber } = req.body;
 
-    const encryptPassword = await bcrypt.hash(Password, 10)
+  const encryptPassword = await bcrypt.hash(Password, 10);
 
-    try {
+  try {
+    const oldUser = await User.findOne({ Email });
 
-        const olduser = await User.findOne({ Email })
-
-        if(olduser){
-            return res.send({error: "User Already Exists"});
-        }
-
-        await User.create({
-            Password: encryptPassword,
-            Email,
-            Name,
-            PhoneNumber,
-        });
-        res.send({status: "ok"})
-    } catch (error) {
-        res.send({status: "error"})
+    if (oldUser) {
+      return res.send({ error: "User Already Exists" });
     }
-})
+
+    await User.create({
+      Password: encryptPassword,
+      Email,
+      Name,
+      PhoneNumber,
+      isAdmin: false, 
+    });
+
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send({ status: "error" });
+  }
+});
+
 
 app.post('/', async (req, res) => {
     const { Email, Password } = req.body;
@@ -102,6 +105,47 @@ app.post('/', async (req, res) => {
       }
     });
   });
+
+
+  app.put('/profile', async (req, res) => {
+    const token = req.headers.authorization;
+  
+    if (!token) {
+      return res.status(403).json({ message: 'Token is required!' });
+    }
+  
+    jwt.verify(token, secretKey, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Invalid token!' });
+      }
+  
+      const userId = decoded.userId;
+  
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+  
+        // Assuming here that you are updating user data based on the PUT request body
+        user.Email = req.body.email || user.Email;
+        user.Name = req.body.name || user.Name;
+        user.PhoneNumber = req.body.phoneNumber || user.PhoneNumber;
+  
+        await user.save();
+  
+        res.json({
+          userId: user._id,
+          email: user.Email,
+          name: user.Name,
+          phoneNumber: user.PhoneNumber,
+        });
+      } catch (error) {
+        res.status(500).json({ message: 'Error updating user data' });
+      }
+    });
+  });
+  
 
   app.get('/books', async (req, res) => {
     try {
@@ -201,6 +245,9 @@ app.get('/borrowed-books', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch borrowed books' });
   }
 });
+
+
+// Inside your POST endpoint for creating admins
 
 
 app.listen(3000, () => {
