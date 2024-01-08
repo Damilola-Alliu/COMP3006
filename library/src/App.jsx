@@ -11,6 +11,10 @@ import Books from './Books';
 import ReturnedBooks from './ReturnedBooks';
 import BorrowedBooks from './BorrowedBooks';
 import Admin from './Admin'
+import Adminprofile from './Adminprofile';
+import AllborrowedBooks from './AllborrowedBooks';
+import AllBooks from './AllBooks';
+import Users from './Users';
 
 function App() {
   return (
@@ -24,7 +28,13 @@ function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/returnedbooks" element={<ReturnedBooks />} />
           <Route path="/borrowedbooks" element={<BorrowedBooks />} />
-          <Route path="/admin" element={<Admin />} />
+
+          <Route path="/admin" element={<Admin />} />        
+          <Route path="/adminprofile" element={<Adminprofile />} />
+          <Route path="/allborrowedbooks" element={<AllborrowedBooks />} />
+          <Route path="/allbooks" element={<AllBooks />} />
+          <Route path="/users" element={<Users />} />
+
         </Routes>
       </Router>
     

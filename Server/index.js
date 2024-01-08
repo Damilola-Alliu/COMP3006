@@ -56,23 +56,35 @@ app.post("/register", async (req, res) => {
 
 
 app.post('/', async (req, res) => {
-    const { Email, Password } = req.body;
-  
+  const { Email, Password } = req.body;
+
+  try {
     const user = await User.findOne({ Email });
-  
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-  
+
     const validPassword = await bcrypt.compare(Password, user.Password);
-  
+
     if (!validPassword) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-  
-    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-    res.status(200).json({ token });
-  });
+
+    // Check if the user is an admin (you might have some criteria to determine this, e.g., user role)
+    const isAdmin = user.isAdmin || false; // Assuming user.isAdmin determines admin status
+
+    // If isAdmin is a boolean field in the User model, use it directly
+    const token = jwt.sign({ userId: user._id, isAdmin }, secretKey, { expiresIn: '1h' });
+
+    // Include isAdmin field in the response along with the token
+    res.status(200).json({ token, isAdmin });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Login failed. Please try again later.' });
+  }
+});
+
 
   app.get('/profile', async (req, res) => {
     const token = req.headers.authorization;

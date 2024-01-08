@@ -6,7 +6,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +16,6 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-         
         },
         body: JSON.stringify({
           Email: email,
@@ -25,14 +24,17 @@ function Login() {
       });
 
       const data = await response.json();
+      console.log(data)
 
       if (response.status === 200) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userData', JSON.stringify({ name: data.name, phoneNumber: data.phoneNumber }));
-        //localStorage.setItem('userEmail', email);
-        
-        
-        navigate('/home'); // Redirect to home
+        localStorage.setItem('userData', JSON.stringify(data)); // Save user data
+
+        if (data.isAdmin) {
+          navigate('/admin'); // Redirect to admin page
+        } else {
+          navigate('/home'); // Redirect to home page for non-admins or if isAdmin is false
+        }
       } else {
         console.error('Login failed:', data.message); // Handle error message
         setErrorMessage(data.message || 'Login failed'); // Set error message
