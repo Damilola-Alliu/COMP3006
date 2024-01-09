@@ -1,20 +1,21 @@
 .Admin_page {
     display: flex;
+    flex-direction: row;
 }
 
 .Sidebar {
     background-color: antiquewhite;
-    height: 100vh; /* Adjust height as needed */
+    height: 100vh; 
     width: 250px;
-    /* other styles... */
+   
 }
 
 .Admin {
-    flex-grow: 1; /* Takes up remaining space */
+    flex-grow: 1; 
     text-align: center;
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center; /* Center content vertically and horizontally */
-    margin-left: 10px; /* Optional: for some spacing between sidebar and content */
+    align-items: center; 
+    margin-left: 10px; 
 }

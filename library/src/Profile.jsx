@@ -8,7 +8,7 @@ const Profile = () => {
     const [editData, setEditData] = useState({ name: '', phoneNumber: '', email: '' }); // State to store edited data
 
     useEffect(() => {
-        // Function to fetch user data from the server
+        
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem('token'); // Get the JWT token from localStorage

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminSidebar from './components/AdminSidebar';
+import './AdminProfile.css'
 
 const Adminprofile = () => {
     return(

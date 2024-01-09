@@ -28,6 +28,47 @@ const User = mongoose.model("Users")
 const Books = mongoose.model("Books")
 const BorrowedBooks = mongoose.model("BorrowedBooks")
 
+app.get('/getusers', async (req, res) => {
+  try {
+    const users = await UserModel.find({isAdmin: false}); // Retrieve all users from the database
+    console.log(users)
+    res.status(200).json(users); // Send the retrieved users as a JSON response
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  
+});
+
+// POST endpoint to create a new user
+app.post('/addusers', async (req, res) => {
+  try {
+      // Set isAdmin to false by default in the request body if it's not provided
+      const userData = {
+          ...req.body,
+          isAdmin: req.body.isAdmin || false,
+      };
+
+      const newUser = await UserModel.create(userData);
+      res.status(201).json(newUser);
+  } catch (error) {
+      res.status(400).json({ message: error.message });
+  }
+});
+
+
+// DELETE endpoint to delete a user by ID
+app.delete('/deleteusers/:id', async (req, res) => {
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.id); // Find user by ID and delete
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User deleted successfully', deletedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.post("/register", async (req, res) => {
   const { Password, Email, Name, PhoneNumber } = req.body;
 
