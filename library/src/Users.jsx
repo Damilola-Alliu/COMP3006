@@ -31,16 +31,29 @@ const Users = () => {
         }
     };
 
-    const handleRemoveUser = async (userId) => {
+    const handleRemoveUser = async (_id) => {
         try {
-            await fetch(`/api/users/${userId}`, {
-                method: 'DELETE',
-            });
-            fetchUsers();
+           
+
+            const confirmation = window.confirm('Are you sure you want to delete this user?');
+    
+            if (confirmation) {
+                const response = await fetch(`http://localhost:3000/deleteusers/${_id}`, {
+                    method: 'DELETE',
+                });
+    
+                if (response.ok) {
+                    fetchUsers(); // Fetch the updated user list after successful deletion
+                } else {
+                    console.error('Failed to delete user');
+                }
+            }
         } catch (error) {
             console.error('Error removing user:', error);
         }
     };
+    
+    
 
     const filteredUsers = users.filter((user) =>
         user.Name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -56,7 +69,7 @@ const Users = () => {
 
     const addUserToServer = async (userData) => {
         try {
-            const response = await fetch('http://localhost:3000/addusers', {
+            const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -66,8 +79,7 @@ const Users = () => {
     
             if (response.ok) {
                 console.log('User added successfully!');
-                // Optionally, you can fetch users again to update the user list after adding a new user
-                // fetchUsers();
+                
             } else {
                 console.error('Failed to add user');
             }

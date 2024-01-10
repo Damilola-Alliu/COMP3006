@@ -5,13 +5,13 @@ import './Profile.css';
 const Profile = () => {
     const [isEditPictureModalOpen, setEditPictureModalOpen] = useState(false);
     const [userData, setUserData] = useState({ name: 'N/A', phoneNumber: 'N/A', email: 'N/A' });
-    const [editData, setEditData] = useState({ name: '', phoneNumber: '', email: '' }); // State to store edited data
+    const [editData, setEditData] = useState({ name: '', phoneNumber: '', email: '' }); 
 
     useEffect(() => {
         
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem('token'); // Get the JWT token from localStorage
+                const token = localStorage.getItem('token'); 
 
                 if (token) {
                     const response = await fetch('http://localhost:3000/profile', {
@@ -26,7 +26,7 @@ const Profile = () => {
                         const userDataFromServer = await response.json();
                         setUserData(userDataFromServer);
                     } else {
-                        // Handle server response if not successful
+                        
                         console.error('Failed to fetch user data');
                     }
                 }
@@ -35,15 +35,12 @@ const Profile = () => {
             }
         };
 
-        fetchUserData(); // Call the function to fetch user data
+        fetchUserData(); 
     }, []);
 
-    const handleEditPicture = () => {
-        setEditPictureModalOpen(true);
-    };
-
+    
     const handleEditInfo = () => {
-        // Logic to edit user info
+        
         setEditData({ name: userData.name, phoneNumber: userData.phoneNumber, email: userData.email });
         setEditPictureModalOpen(true);
     };
@@ -91,7 +88,7 @@ const Profile = () => {
                     <button className="edit-info-button" onClick={handleEditInfo}>Edit Info</button>
                 </div>
 
-                {/* Modal for editing user info */}
+               
                 {isEditPictureModalOpen && (
                     <div className="edit-modal">
                         <h3>Edit Info</h3>

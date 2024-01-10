@@ -33,7 +33,7 @@ const Books = () => {
                 if (response.ok) {
                     const userData = await response.json();
                     setuserEmail(userData.email);
-                    console.log(userData.email)
+                    
                 } else {
                     console.error('Failed to fetch user email');
                 }
@@ -131,7 +131,7 @@ const Books = () => {
                     {filteredBooks.map(book => (
                         <div key={book.BookID} className="book_item_container">
                             <div className="book_item">
-                            <img src={book.CoverImage} alt={book.Title} />
+                                <img src={book.CoverImage} alt={book.Title} />
                                 <h3>{book.Title}</h3>
                                 <p>Author: {book.Author}</p>
                                 <p>ISBN: {book.ISBN}</p>
@@ -141,46 +141,50 @@ const Books = () => {
                                 <p>Total Copies: {book.TotalCopies}</p>
                                 <p>Available Copies: {book.AvailableCopies}</p>
                                 <br />
-                                <button onClick={() => handleBorrowBook(book.Title)}>Borrow Book</button>
-                                
+                                <button
+                                    onClick={() => handleBorrowBook(book.Title, book.AvailableCopies)}
+                                    disabled={book.AvailableCopies === 0}
+                                >
+                                    Borrow Book
+                                </button>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
             {showForm && (
-    <div className="popup_overlay">
-        <div className={`popup_form ${showForm ? 'show' : ''}`}>
-            <button className="closeButton" onClick={() => setShowForm(false)}>X</button>
-            <form onSubmit={handleFormSubmit}>
-            <label htmlFor="borrowDate">Borrow Date:</label>
-                            <input
-                                type="date"
-                                id="borrowDate"
-                                value={borrowDate}
-                                onChange={(e) => setBorrowDate(e.target.value)}
-                                required
-                            />
-
-                            <br />
-                            <br />
-
-                            <label htmlFor="returnDate">Intended Return Date:</label>
-                            <input
-                                type="date"
-                                id="returnDate"
-                                value={returnDate}
-                                onChange={(e) => setReturnDate(e.target.value)}
-                                required
-                            />
-
-                            <br />
-                            <br />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-)}
+                <div className="popup_overlay">
+                <div className={`popup_form ${showForm ? 'show' : ''}`}>
+                    <button className="closeButton" onClick={() => setShowForm(false)}>X</button>
+                    <form onSubmit={handleFormSubmit}>
+                    <label htmlFor="borrowDate">Borrow Date:</label>
+                                    <input
+                                        type="date"
+                                        id="borrowDate"
+                                        value={borrowDate}
+                                        onChange={(e) => setBorrowDate(e.target.value)}
+                                        required
+                                    />
+        
+                                    <br />
+                                    <br />
+        
+                                    <label htmlFor="returnDate">Intended Return Date:</label>
+                                    <input
+                                        type="date"
+                                        id="returnDate"
+                                        value={returnDate}
+                                        onChange={(e) => setReturnDate(e.target.value)}
+                                        required
+                                    />
+        
+                                    <br />
+                                    <br />
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            )}
         </div>
     );
 };

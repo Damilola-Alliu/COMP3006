@@ -16,50 +16,29 @@ app.use(express.json())
 mongoose.connect("mongodb://localhost:27017/COMP3006db")
 
 
-// app.get('/getUsers', (req, res) => {
-//     UserModel.find()
-//     .then(users => res.json(users))
-//     .catch(err => res.join(err))
-// })
+
 
 require("./models/Users")
 
 const User = mongoose.model("Users")
-const Books = mongoose.model("Books")
-const BorrowedBooks = mongoose.model("BorrowedBooks")
 
 app.get('/getusers', async (req, res) => {
   try {
-    const users = await UserModel.find({isAdmin: false}); // Retrieve all users from the database
-    console.log(users)
-    res.status(200).json(users); // Send the retrieved users as a JSON response
+    const users = await UserModel.find({isAdmin: false}); 
+    
+    res.status(200).json(users); 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
   
 });
 
-// POST endpoint to create a new user
-app.post('/addusers', async (req, res) => {
+
+// DELETE endpoint to delete a user by Email
+app.delete('/deleteusers/:_id', async (req, res) => {
   try {
-      // Set isAdmin to false by default in the request body if it's not provided
-      const userData = {
-          ...req.body,
-          isAdmin: req.body.isAdmin || false,
-      };
-
-      const newUser = await UserModel.create(userData);
-      res.status(201).json(newUser);
-  } catch (error) {
-      res.status(400).json({ message: error.message });
-  }
-});
-
-
-// DELETE endpoint to delete a user by ID
-app.delete('/deleteusers/:id', async (req, res) => {
-  try {
-    const deletedUser = await UserModel.findByIdAndDelete(req.params.id); // Find user by ID and delete
+    const deletedUser = await UserModel.findByIdAndDelete(req.params._id); 
+   
     if (!deletedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -112,13 +91,13 @@ app.post('/', async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    // Check if the user is an admin (you might have some criteria to determine this, e.g., user role)
-    const isAdmin = user.isAdmin || false; // Assuming user.isAdmin determines admin status
+    
+    const isAdmin = user.isAdmin || false; 
 
-    // If isAdmin is a boolean field in the User model, use it directly
+   
     const token = jwt.sign({ userId: user._id, isAdmin }, secretKey, { expiresIn: '1h' });
 
-    // Include isAdmin field in the response along with the token
+    
     res.status(200).json({ token, isAdmin });
   } catch (error) {
     console.error('Login error:', error);
@@ -180,7 +159,7 @@ app.post('/', async (req, res) => {
           return res.status(404).json({ message: 'User not found' });
         }
   
-        // Assuming here that you are updating user data based on the PUT request body
+        
         user.Email = req.body.email || user.Email;
         user.Name = req.body.name || user.Name;
         user.PhoneNumber = req.body.phoneNumber || user.PhoneNumber;
@@ -209,15 +188,14 @@ app.post('/', async (req, res) => {
         res.status(500).json({ message: 'Error fetching books', error: error.message });
     }
 });
-;
-  
+ 
 
-  app.post('/books', async (req, res) => {
+  app.post('/addbooks', async (req, res) => {
     try {
-      // Destructure book details from the request body
+      
       const { Title, Author, ISBN, Description, Genre, PublicationYear, CoverImage, TotalCopies, AvailableCopies, BorrowedBy } = req.body;
   
-      // Create a new book instance using the Books model
+      
       const newBook = new BooksModel({
         Title,
         Author,
@@ -231,7 +209,7 @@ app.post('/', async (req, res) => {
         BorrowedBy
       });
   
-      // Save the new book to the database
+      
       await newBook.save();
   
       res.status(201).json({ message: 'Book created successfully', book: newBook });
@@ -239,6 +217,27 @@ app.post('/', async (req, res) => {
       res.status(500).json({ message: 'Error creating book', error: error.message });
     }
   });
+
+  app.delete('/books/:title', async (req, res) => {
+    const bookTitle = req.params.title;
+
+    try {
+       
+        const deletedBook = await BooksModel.findOneAndDelete({ Title: bookTitle });
+
+        if (!deletedBook) {
+            
+            return res.status(404).json({ error: 'Book not found' });
+        }
+
+        console.log(`Book "${bookTitle}" deleted successfully`);
+        
+        return res.status(204).send();
+    } catch (error) {
+        console.error('Error deleting book:', error);
+        res.status(500).json({ error: 'Internal server error', message: error.message });
+    }
+});
   
   
   app.post('/borrow-book', async (req, res) => {
@@ -251,9 +250,9 @@ app.post('/', async (req, res) => {
         }
 
         
-        // Create a new entry in BorrowedBooks collection
+        
         const newBorrowedBook = new BorrowedBooksModel({
-            BookName: bookName, // Use the bookName received from the frontend
+            BookName: bookName, 
             userEmail: userEmail,
             BorrowDate: borrowDate,
             DueDate: returnDate,
@@ -262,8 +261,7 @@ app.post('/', async (req, res) => {
 
         await newBorrowedBook.save();
 
-        // Update the available copies count in the Books collection
-        // This part will need to be adjusted to find the book by name instead of ID
+        
         const borrowedBook = await BooksModel.findOne({ Title: bookName });
         if (borrowedBook) {
             borrowedBook.AvailableCopies -= 1;
@@ -281,15 +279,15 @@ app.post('/', async (req, res) => {
 
 app.get('/borrowed-books', async (req, res) => {
   const userEmail = req.query.userEmail;
-  console.log('This is the user Email: ', userEmail)
+ 
   try {
     if (!userEmail) {
       return res.status(400).json({ message: 'User email not provided!' });
     }
 
     const borrowedBooks = await BorrowedBooksModel.find({
-      userEmail, // Use the user's email to filter books
-      ReturnDate: null, // Fetch books that haven't been returned yet
+      userEmail, 
+       
     });
 
     res.status(200).json({ borrowedBooks });
@@ -300,7 +298,48 @@ app.get('/borrowed-books', async (req, res) => {
 });
 
 
-// Inside your POST endpoint for creating admins
+app.put('/borrowedbooks/:bookName', async (req, res) => {
+  const { bookName } = req.params;
+  const { ReturnDate } = req.body;
+
+  try {
+      const updatedBook = await BorrowedBooksModel.findOneAndUpdate(
+          { BookName: bookName },
+          { ReturnDate },
+          { new: true }
+      );
+
+      if (!updatedBook) {
+          return res.status(404).json({ message: 'Book not found' });
+      }
+
+      // Update AvailableCopies in the BooksModel
+      await BooksModel.updateOne(
+          { BookName: updatedBook.BookName },
+          { $inc: { AvailableCopies: 1 } }
+      );
+
+      return res.json({ message: 'Return date updated successfully', updatedBook });
+  } catch (error) {
+      console.error('Error updating return date:', error);
+      return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+
+
+
+app.get('/AdminBorrowedBooks', async (req, res) => {
+  try {
+      const books = await BorrowedBooksModel.find();
+      res.json(books);
+  } catch (error) {
+      console.error('Error fetching books:', error);
+      res.status(500).json({ message: 'Error fetching books', error: error.message });
+  }
+});
 
 
 app.listen(3000, () => {

@@ -1,0 +1,68 @@
+.AllborrowedBooks_page {
+    display: flex;
+    flex-direction: row;
+}
+
+.Sidebar {
+    background-color: antiquewhite;
+    height: 100vh; 
+    width: 250px;
+   
+}
+
+.AllborrowedBooks { 
+    flex-grow: 1; 
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-left: 10px; 
+}
+
+
+
+.AllBorrowedBooks {
+    padding: 20px;
+}
+
+
+
+
+
+.book_item {
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px; 
+    text-align: center; 
+}
+
+.popup input[type="date"],
+.popup button {
+    margin-bottom: 10px;
+}
+
+
+
+
+

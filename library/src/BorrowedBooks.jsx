@@ -66,7 +66,7 @@ const BorrowedBooks = () => {
         
             if (books.length > 0) {
               setBorrowedBooks(books);
-              console.log('User Email:', userEmail); // Logging the userEmail for testing
+               
             } else {
               console.error('No borrowed books found for the user');
             }
@@ -102,19 +102,23 @@ const BorrowedBooks = () => {
               ) : (
                 borrowedBooks.length > 0 ? (
                   borrowedBooks.map(book => (
-                    <div key={book._id} className="book_item_container"> {/* Assuming '_id' as the unique identifier */}
+                    <div key={book._id} className="book_item_container"> 
                       <div className="book_item">
                         <img src={book.CoverImage} alt={book.Title} />
                         <h3>{book.BookName}</h3>
                         <b><p>Borrowed Date: {formatDate(book.BorrowDate)}</p></b>
                         <b><p>Due Date: {formatDate(book.DueDate)}</p></b>
+                        <b><p>Return Date: {book.ReturnDate}</p></b>
                         <br />
-                        <p>You are yet to return this book.
-                          <br />
-                          <br />
-                          An admin will have to approve returning of this book.
-                          
+                        {book.ReturnDate ? (
+                          <p>Admin has confirmed your returning of this book.</p>
+                        ) : (
+                          <p>You are yet to return this book.
+                            <br />
+                            <br />
+                            An admin will have to approve returning of this book.
                           </p>
+                        )}
                       </div>
                     </div>
                   ))
@@ -125,8 +129,7 @@ const BorrowedBooks = () => {
             </div>
           </div>
         </div>
-      );
-      
+    );
 };
 
 export default BorrowedBooks;

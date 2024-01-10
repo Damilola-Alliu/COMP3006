@@ -37,7 +37,9 @@
     flex-wrap: wrap; 
     justify-content: center;
     gap: 20px;
-    margin-bottom: 50px; 
+    margin-bottom: 50px;
+    max-width: calc(100% - 700px); /* Adjust margin according to your layout */
+    overflow-x: auto;
   }
   
   .user-card {
@@ -90,7 +92,7 @@
   border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 999;
-  /* Add your styles for the pop-up form */
+  
 }
 
 .popup-form form {
@@ -102,7 +104,7 @@
   margin-bottom: 10px;
   padding: 8px;
   font-size: 14px;
-  /* Add more input styles for the pop-up form */
+ 
 }
 
 .popup-form button {
@@ -112,20 +114,20 @@
   
 }
 
-/* Style for the "Add" button */
+
 .button-group button.add-btn {
-  background-color: #3498db; /* Blue background color */
+  background-color: #3498db; 
   color: #fff;
   
 }
 
-/* Style for the "Cancel" button */
+
 .button-group button.cancel-btn {
-  background-color: #e74c3c; /* Red background color */
+  background-color: #e74c3c; 
   color: #fff;
 }
 
-/* Hover effect for both buttons */
+
 .button-group button:hover {
-  filter: brightness(1.2); /* Increase brightness on hover */
+  filter: brightness(1.2); 
 }
