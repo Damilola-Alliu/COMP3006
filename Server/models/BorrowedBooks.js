@@ -9,7 +9,7 @@ const BorrowedBooksSchema = new mongoose.Schema({
     },
     BorrowDate: Date,
     DueDate: Date,
-    ReturnDate: Date,
+    ReturnDate: Date
 });
 
 const BorrowedBooksModel = mongoose.model("BorrowedBooks", BorrowedBooksSchema);
