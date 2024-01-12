@@ -23,10 +23,10 @@ jobs:
           # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
       - name: Installing dependency
-        run: npm install
+        run: npm install --prefix COMP3006/library
 
       - name: Installing jest
-        run: npm install jest
+        run: npm install jest --prefix COMP3006/library
 
       - name: run test
-        run: npm jest
+        run: npm jest --prefix COMP3006/library
