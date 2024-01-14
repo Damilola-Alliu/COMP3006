@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 
-const BorrowedBooksSchema = new mongoose.Schema({
-    BookName: {
-        type: String, 
-    },
-    userEmail: {
-        type: String,
-    },
-    BorrowDate: Date,
-    DueDate: Date,
-    ReturnDate: Date
+const borrowedBooksSchema = new mongoose.Schema({
+  BookName: String,
+  userEmail: String,
+  BorrowDate: Date,
+  DueDate: Date,
+  ReturnDate: Date,
 });
 
-const BorrowedBooksModel = mongoose.model("BorrowedBooks", BorrowedBooksSchema);
+const BorrowedBooksModel = mongoose.model('BorrowedBooks', borrowedBooksSchema);
+
 module.exports = BorrowedBooksModel;

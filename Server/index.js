@@ -8,7 +8,6 @@ const secretKey = 'SecretKey';
 const BooksModel = require('./models/Books'); 
 const BorrowedBooksModel = require('./models/BorrowedBooks')
 
-
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -57,22 +56,27 @@ app.post("/register", async (req, res) => {
     const oldUser = await User.findOne({ Email });
 
     if (oldUser) {
-      return res.send({ error: "User Already Exists" });
+      // User already exists
+      return res.status(409).send({ status: "error", error: "User Already Exists" });
     }
 
+    // User does not exist, register the user
     await User.create({
       Password: encryptPassword,
       Email,
       Name,
       PhoneNumber,
-      isAdmin: false, 
+      isAdmin: false,
     });
 
-    res.send({ status: "ok" });
+    // Successfully registered
+    res.status(200).send({ status: "ok" });
   } catch (error) {
-    res.send({ status: "error" });
+    // Error during registration
+    res.status(500).send({ status: "error" });
   }
 });
+
 
 
 app.post('/', async (req, res) => {
@@ -173,6 +177,7 @@ app.post('/', async (req, res) => {
           phoneNumber: user.PhoneNumber,
         });
       } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Error updating user data' });
       }
     });
@@ -313,7 +318,7 @@ app.put('/borrowedbooks/:bookName', async (req, res) => {
           return res.status(404).json({ message: 'Book not found' });
       }
 
-      // Update AvailableCopies in the BooksModel
+      
       await BooksModel.updateOne(
           { BookName: updatedBook.BookName },
           { $inc: { AvailableCopies: 1 } }
@@ -327,10 +332,6 @@ app.put('/borrowedbooks/:bookName', async (req, res) => {
 });
 
 
-
-
-
-
 app.get('/AdminBorrowedBooks', async (req, res) => {
   try {
       const books = await BorrowedBooksModel.find();
@@ -341,7 +342,7 @@ app.get('/AdminBorrowedBooks', async (req, res) => {
   }
 });
 
-
+module.exports = app;
 app.listen(3000, () => {
     console.log("Server is running")
 })
