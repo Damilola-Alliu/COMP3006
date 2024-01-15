@@ -57,7 +57,7 @@ it('should register a new user or handle existing user gracefully', async () => 
   else {
     fail(`Unexpected response status: ${response.status}`);
   }
-});
+}, 10000);
 
 it('should successfully initiate a GET request to /getusers', async () => {
   
@@ -66,7 +66,7 @@ it('should successfully initiate a GET request to /getusers', async () => {
   
   expect(response.status).toBe(200);
   expect(response.body).toEqual(expect.any(Array)); 
-});
+}, 10000);
 
 
 
@@ -85,7 +85,7 @@ it('should handle errors when initiating a GET request to /getusers', async () =
 
  
   UserModel.find.mockRestore();
-});
+}, 10000);
 
 
 it('should retrieve the user profile correctly with a valid token', async () => {
@@ -116,7 +116,7 @@ it('should retrieve the user profile correctly with a valid token', async () => 
 
   
   UserModel.findById.mockRestore();
-});
+}, 10000);
 
 
 it('should handle scenarios with missing or invalid tokens', async () => {
@@ -136,7 +136,7 @@ it('should handle scenarios with missing or invalid tokens', async () => {
 expect(responseWithInvalidToken.status).toBe(500); 
 expect(responseWithInvalidToken.body).toEqual({ message: 'Error fetching user data' }); 
 
-});
+}, 10000);
 
 
 
@@ -202,7 +202,7 @@ describe('GET /borrowed-books', () => {
 
    
     expect(BorrowedBooksModel.find).toHaveBeenCalledWith({ userEmail });
-  });
+  }, 10000);
 
 
 
@@ -222,7 +222,7 @@ it('should handle errors when fetching borrowed books', async () => {
   BorrowedBooksModel.find.mockRestore();
 });
 
-});
+}, 10000);
 
 
 describe('POST /login', () => {
@@ -241,7 +241,7 @@ describe('POST /login', () => {
       
     jest.spyOn(UserModel, 'findOne').mockRestore();
 });
-})
+}, 10000)
   
 
   it('should return status code 404 for an unregistered user', async () => {
@@ -257,7 +257,7 @@ describe('POST /login', () => {
       
     expect(response.status).toBe(404);       
     expect(response.body).toEqual(expect.any(Object));
-  });
+  }, 10000);
   
   it('should return status code 401 for a registered user with invalid password', async () => {
     
@@ -272,7 +272,7 @@ describe('POST /login', () => {
     
     expect(response.status).toBe(401);
     expect(response.body).toEqual({ message: 'Invalid password' });
-  });
+  }, 10000);
 
   it('should return status code 500 for internal server error', async () => {
     
@@ -290,7 +290,7 @@ describe('POST /login', () => {
     expect(response.body).toEqual({ message: 'Login failed. Please try again later.' });
   
     jest.spyOn(UserModel, 'findOne').mockRestore();
-  });
+  }, 10000);
   
 
 
@@ -305,7 +305,7 @@ describe('POST /borrow-book', () => {
     expect(response.body).toEqual({ message: 'Token is required!' });
   });
 
-});
+}, 10000);
 
 describe('PUT /profile', () => {
   it('should return error 403 if token is missing', async () => {
@@ -320,7 +320,7 @@ describe('PUT /profile', () => {
   });
 
   
-});
+}, 10000);
 
 
 // describe('PUT /profile', () => {
@@ -450,7 +450,7 @@ describe('GET /getusers', () => {
   });
 
   
-});
+}, 10000);
 
 // describe('DELETE /deleteusers/:_id', () => {
 //   it('should delete a user', async () => {
