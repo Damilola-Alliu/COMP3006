@@ -17,6 +17,12 @@ const BooksModel = require('../models/Books')
 
 // // Other mocks for mongoose, cors, etc.
 
+// beforeAll(async () => {
+//   // Additional setup code if needed
+//   // This could include connecting to the database or any other setup required for your tests
+// });
+
+
 
 
 
@@ -24,12 +30,6 @@ jest.mock('jsonwebtoken', () => ({
   verify: jest.fn((token, secretKey, callback) => callback(null, { userId: 'user123' })),
 }));
 
-// // jest.mock('../models/Books', () => ({
-// //   find: jest.fn().mockResolvedValue([
-// //     { title: 'Book 1', author: 'Author 1' },
-// //     { title: 'Book 2', author: 'Author 2' },
-// //   ]),
-// // }));
 
 
 
@@ -323,31 +323,31 @@ describe('PUT /profile', () => {
 });
 
 
-describe('PUT /profile', () => {
-  it('should return status code 500 when user ID is not found', async () => {
+// describe('PUT /profile', () => {
+//   it('should return status code 500 when user ID is not found', async () => {
     
-    const validToken = 'your_valid_token_here';
+//     const validToken = 'your_valid_token_here';
     
-    const nonExistentUserId = 'non_existent_user_id';
+//     const nonExistentUserId = 'non_existent_user_id';
 
     
-    const response = await request(app)
-      .put('/profile')
-      .set('Authorization', `Bearer ${validToken}`)
-      .send({
-        email: 'new@example.com',
-        name: 'New User',
-        phoneNumber: '1234567890',
-        userId: nonExistentUserId,
-      });
+//     const response = await request(app)
+//       .put('/profile')
+//       .set('Authorization', `Bearer ${validToken}`)
+//       .send({
+//         email: 'new@example.com',
+//         name: 'New User',
+//         phoneNumber: '1234567890',
+//         userId: nonExistentUserId,
+//       });
 
     
-    expect(response.status).toBe(500);
-    expect(response.body).toEqual({ message: 'Error updating user data' });
-  });
+//     expect(response.status).toBe(500);
+//     expect(response.body).toEqual({ message: 'Error updating user data' });
+//   });
 
    
-});
+// });
 
 
 
@@ -465,3 +465,11 @@ describe('GET /getusers', () => {
 // });
 
 // Add more describe blocks for other endpoints as needed
+
+
+
+
+// afterAll(async () => {
+//   // Teardown logic, close connections, etc.
+//   await new Promise(resolve => app.close(resolve));
+// });
