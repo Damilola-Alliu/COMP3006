@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AdminSidebar from './components/AdminSidebar';
 import './AllborrowedBooks.css';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3000/borrowedbooks/${encodeURIComponent(selectedBook.BookName)}'); 
+
 
 const AllborrowedBooks = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -64,6 +68,8 @@ const handleConfirmReturn = async () => {
             console.log('Return date updated successfully!');
             setShowPopup(false);
 
+            socket.emit('confirm return', selectedBook.BookName);
+
             fetchBorrowedBooks();
         } else {
             console.error('Failed to update return date');
@@ -74,7 +80,18 @@ const handleConfirmReturn = async () => {
 };
 
     
-    
+useEffect(() => {
+    socket.on('return confirmation', ({ bookName, confirmation }) => {
+      if (confirmation) {
+        console.log(`Return confirmed for book: ${bookName}`);
+        // You can add any additional logic here based on the confirmation
+      }
+    });
+
+    return () => {
+        socket.disconnect();
+      };
+    }, []);
     
     
     return (

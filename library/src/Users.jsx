@@ -56,8 +56,9 @@ const Users = () => {
     
 
     const filteredUsers = users.filter((user) =>
-        user.Name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    user.Name?.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
