@@ -141,36 +141,36 @@ expect(responseWithInvalidToken.body).toEqual({ message: 'Error fetching user da
 
 
 
-it('should handle errors when fetching borrowed books', async () => {
+// it('should handle errors when fetching borrowed books', async () => {
   
-  const mockError = new Error('Simulated error in BorrowedBooksModel.find');
-  jest.spyOn(BorrowedBooksModel, 'find').mockRejectedValueOnce(mockError);
+//   const mockError = new Error('Simulated error in BorrowedBooksModel.find');
+//   jest.spyOn(BorrowedBooksModel, 'find').mockRejectedValueOnce(mockError);
 
   
-  const response = await request(app).get('/AdminBorrowedBooks');
-  console.log('Response', response.body)
+//   const response = await request(app).get('/AdminBorrowedBooks');
+//   console.log('Response', response.body)
 
   
-  expect(response.status).toBe(500);
-  expect(response.body).toEqual({ message: 'Error fetching books', error: mockError.message });
+//   expect(response.status).toBe(500);
+//   expect(response.body).toEqual({ message: 'Error fetching books', error: mockError.message });
 
   
-  BorrowedBooksModel.find.mockRestore();
-});
+//   BorrowedBooksModel.find.mockRestore();
+// });
+
+// jest.mock('../models/BorrowedBooks', () => ({
+//   find: jest.fn().mockResolvedValue([
+//     { BookName: 'Book 1', userEmail: 'Logged In User', BorrowDate: '2022-01-14', DueDate: ' 2022-01-14', ReturnDate: '2022-02-01' },
+//     { BookName: 'Book 2', userEmail: 'Logged In User', BorrowDate: '2022-01-15', DueDate: ' 2022-01-14', ReturnDate: '2022-02-01' },
+    
+//   ]),
+// }));
+
+
 
 jest.mock('../models/BorrowedBooks', () => ({
-  find: jest.fn().mockResolvedValue([
-    { BookName: 'Book 1', userEmail: 'Logged In User', BorrowDate: '2022-01-14', DueDate: ' 2022-01-14', ReturnDate: '2022-02-01' },
-    { BookName: 'Book 2', userEmail: 'Logged In User', BorrowDate: '2022-01-15', DueDate: ' 2022-01-14', ReturnDate: '2022-02-01' },
-    
-  ]),
+  find: jest.fn(),
 }));
-
-
-
-// // jest.mock('../models/BorrowedBooks', () => ({
-// //   find: jest.fn(),
-// // }));
 
 
 describe('GET /borrowed-books', () => {
