@@ -1,9 +1,22 @@
 const request = require('supertest');
 const app = require('../index'); 
-const UserModel = require('../models/Users');
-const jwt = require('jsonwebtoken');
+
+
+
+ const UserModel = require('../models/Users');
+ 
 const BooksModel = require('../models/Books')
-const BorrowedBooksModel = require('../models/BorrowedBooks')
+ const BorrowedBooksModel = require('../models/BorrowedBooks')
+
+
+
+
+// const app = require('../index'); 
+// jest.mock('express');
+
+
+// // Other mocks for mongoose, cors, etc.
+
 
 
 
@@ -11,12 +24,12 @@ jest.mock('jsonwebtoken', () => ({
   verify: jest.fn((token, secretKey, callback) => callback(null, { userId: 'user123' })),
 }));
 
-// jest.mock('../models/Books', () => ({
-//   find: jest.fn().mockResolvedValue([
-//     { title: 'Book 1', author: 'Author 1' },
-//     { title: 'Book 2', author: 'Author 2' },
-//   ]),
-// }));
+// // jest.mock('../models/Books', () => ({
+// //   find: jest.fn().mockResolvedValue([
+// //     { title: 'Book 1', author: 'Author 1' },
+// //     { title: 'Book 2', author: 'Author 2' },
+// //   ]),
+// // }));
 
 
 
@@ -155,9 +168,9 @@ jest.mock('../models/BorrowedBooks', () => ({
 
 
 
-jest.mock('../models/BorrowedBooks', () => ({
-  find: jest.fn(),
-}));
+// // jest.mock('../models/BorrowedBooks', () => ({
+// //   find: jest.fn(),
+// // }));
 
 
 describe('GET /borrowed-books', () => {
@@ -227,7 +240,8 @@ describe('POST /login', () => {
     expect(response.body).toEqual({ message: 'Invalid password' });
       
     jest.spyOn(UserModel, 'findOne').mockRestore();
-  });
+});
+})
   
 
   it('should return status code 404 for an unregistered user', async () => {
@@ -278,7 +292,7 @@ describe('POST /login', () => {
     jest.spyOn(UserModel, 'findOne').mockRestore();
   });
   
-});
+
 
 
 describe('POST /borrow-book', () => {
@@ -371,7 +385,6 @@ describe('PUT /profile', () => {
 //   });
 // });
 
-// console.log(BorrowedBooksModel);
 
 
 
@@ -403,7 +416,14 @@ describe('PUT /profile', () => {
     
 //     expect(response.status).toBe(201);
 //     expect(response.body).toHaveProperty('message', 'Book created successfully');
-//     expect(response.body).toHaveProperty('book');
+//     expect(response.body).toHaveProperty('Title');
+//     expect(response.body).toHaveProperty('Author');
+//     expect(response.body).toHaveProperty('ISBN');
+//     expect(response.body).toHaveProperty('Description');
+//     expect(response.body).toHaveProperty('Genre');
+//     expect(response.body).toHaveProperty('Publication Year');
+//     expect(response.body).toHaveProperty('TotalCopies');
+//     expect(response.body).toHaveProperty('AvailableCopies');
 //     const createdBook = response.body.book;
 
     
@@ -419,3 +439,29 @@ describe('PUT /profile', () => {
  
  
 // });
+
+
+
+describe('GET /getusers', () => {
+  it('should return a list of users', async () => {
+    const response = await request(app).get('/getusers');
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(expect.any(Array));
+  });
+
+  
+});
+
+// describe('DELETE /deleteusers/:_id', () => {
+//   it('should delete a user', async () => {
+//     // Assuming you have a user ID to test deletion
+//     const userId = 'someUserId';
+//     const response = await request(app).delete(`/deleteusers/${userId}`);
+//     expect(response.status).toBe(200);
+//     expect(response.body).toHaveProperty('message', 'User deleted successfully');
+//   });
+
+//   // Add more tests for the /deleteusers endpoint as needed
+// });
+
+// Add more describe blocks for other endpoints as needed

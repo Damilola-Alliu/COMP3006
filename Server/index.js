@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors')
 const UserModel = require('./models/Users')
@@ -8,12 +8,11 @@ const secretKey = 'SecretKey';
 const BooksModel = require('./models/Books'); 
 const BorrowedBooksModel = require('./models/BorrowedBooks')
 
-const app = express()
+const app = express();
 app.use(cors())
 app.use(express.json())
 
 mongoose.connect("mongodb://localhost:27017/COMP3006db")
-
 
 
 
@@ -342,7 +341,9 @@ app.get('/AdminBorrowedBooks', async (req, res) => {
   }
 });
 
-module.exports = app;
+
 app.listen(3000, () => {
     console.log("Server is running")
 })
+
+module.exports = app;
