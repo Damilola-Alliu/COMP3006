@@ -86,7 +86,7 @@ useEffect(() => {
         console.log(`Return confirmed for book: ${bookName}`);
         // You can add any additional logic here based on the confirmation
       }
-    });
+    }); 
 
     return () => {
         socket.disconnect();
