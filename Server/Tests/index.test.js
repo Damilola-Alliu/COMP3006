@@ -323,35 +323,31 @@ describe('PUT /profile', () => {
 }, 1000);
 
 
-// describe('PUT /profile', () => {
-//   it('should return status code 500 when user ID is not found', async () => {
+describe('PUT /profile', () => {
+  it('should return status code 500 when user ID is not found', async () => {
     
-//     const validToken = 'your_valid_token_here';
+    const validToken = 'your_valid_token_here';
     
-//     const nonExistentUserId = 'non_existent_user_id';
+    const nonExistentUserId = 'non_existent_user_id';
 
     
-//     const response = await request(app)
-//       .put('/profile')
-//       .set('Authorization', `Bearer ${validToken}`)
-//       .send({
-//         email: 'new@example.com',
-//         name: 'New User',
-//         phoneNumber: '1234567890',
-//         userId: nonExistentUserId,
-//       });
+    const response = await request(app)
+      .put('/profile')
+      .set('Authorization', `Bearer ${validToken}`)
+      .send({
+        email: 'new@example.com',
+        name: 'New User',
+        phoneNumber: '1234567890',
+        userId: nonExistentUserId,
+      });
 
     
-//     expect(response.status).toBe(500);
-//     expect(response.body).toEqual({ message: 'Error updating user data' });
-//   });
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ message: 'Error updating user data' });
+  });
 
    
-// });
-
-
-
-
+});
 
 
 
